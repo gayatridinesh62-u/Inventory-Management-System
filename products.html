@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Product List</h2>
+
+<!-- Search Bar -->
+<form method="GET" action="/products" class="search-form">
+    <input type="text" name="search" placeholder="Search by name or category">
+    <button type="submit">Search</button>
+</form>
+
+<br>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Product Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total Value</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for product in products %}
+    <tr {% if product.quantity < 5 %} class="low-stock-row" {% endif %}>
+        <td>{{ product.id }}</td>
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>₹ {{ product.price }}</td>
+        <td>₹ {{ product.quantity * product.price }}</td>
+        <td>
+            <a href="/edit_product/{{ product.id }}" class="edit-btn">Edit</a>
+            <a href="/delete_product/{{ product.id }}" class="delete-btn"
+               onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}
